@@ -1,0 +1,52 @@
+img, body {
+  max-width: 100%;
+  background-color: #e0e4ed;
+}
+
+nav {
+  display: block;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: space-around;
+  border: 40px;
+  padding: none;
+}
+
+.fern, .cactus, .succulent, .hoya, .asparagus-fern, .new-plant {
+  width: 30em;
+  height: 30em;
+  margin-bottom: 2em;
+}
+
+.plant-text {
+  background-color: white;
+  text-align: center;
+  margin-top: 9em;
+  margin-left: 9em;
+  margin-right: 9em;
+}
+
+.fern {
+  background: url(images/fern.png);
+}
+
+.cactus {
+  background: url(images/cactus.png);
+}
+
+.succulent {
+  background: url(images/succulent.png);
+}
+
+.hoya {
+  background: url(images/hoya.png);
+}
+
+.asparagus-fern {
+  background: url(images/asparagus-fern.png);
+}
