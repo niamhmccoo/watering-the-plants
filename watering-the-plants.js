@@ -1,20 +1,32 @@
 //FERN:
 
-function ferncurrentTimeInSecondsFrom01Jan1970() {
+// Core types in JavaScript
+
+// "Hello" // String
+// 2 // Number
+// (n) => n + 2 // function
+// [5,2] // Array
+// {"name": "Francis", "age": 222} // Object
+// null // null
+// undefined // undefined
+// true // boolean
+
+// New types in ECMAScript 6 (ignore for now but investigate later)
+// https://hacks.mozilla.org/category/es6-in-depth/
+
+// Map
+// Set
+// Symbol
+
+// Time stuff:
+function currentTime() {
   let dateAsObject = new Date();
   let dateInMs = dateAsObject - 0;
   let dateInS = dateInMs / 1000;
   return Math.round(dateInS);
 }
 
-function fernbuttonPressed() {
-  let now = ferncurrentTimeInSecondsFrom01Jan1970();
-  localStorage.setItem('fern-last-watered', now);
-}
-
-document.querySelector('#fern-button').addEventListener('click', fernbuttonPressed);
-
-function fernformatTimeAgo(timeInS) {
+function formatTimeAgo(timeInS) {
   let secondsOnly = timeInS % 60;
   let timeInM = (timeInS - secondsOnly) / 60;
   let minutesOnly = timeInM % 60;
@@ -24,171 +36,57 @@ function fernformatTimeAgo(timeInS) {
   return `${timeInD}d ${timeInH}h ${minutesOnly}m ${secondsOnly}s ago`;
 }
 
-function fernrefreshPage() {
-  let lastClicked = localStorage.getItem('fern-last-watered');
+// Button stuff:
+
+let now = currentTime();
+
+function buttonPressed(event) {
+// event.target gets the button you lastClicked - use this to reset the timers using the dataset.id
+  localStorage.setItem(event.target.dataset.id, currentTime());
+}
+
+function refreshPlant(lastwatered, date) {
+  let lastClicked = localStorage.getItem(lastwatered);
   if (lastClicked === null) {
-    document.querySelector('#fern-date').innerHTML = 'Never';
+    document.querySelector(date).innerHTML = 'Never';
   } else {
-    let now = ferncurrentTimeInSecondsFrom01Jan1970();
+    let now = currentTime();
     let howManySecondsAgo = now - lastClicked;
-    document.querySelector('#fern-date').innerHTML = fernformatTimeAgo(howManySecondsAgo);
+    console.log(lastwatered, howManySecondsAgo);
+    document.querySelector(date).innerHTML = formatTimeAgo(howManySecondsAgo);
   }
 }
 
-setInterval(fernrefreshPage, 1000);
-
-//CACTUS:
-
-function cactuscurrentTimeInSecondsFrom01Jan1970() {
-  let dateAsObject = new Date();
-  let dateInMs = dateAsObject - 0;
-  let dateInS = dateInMs / 1000;
-  return Math.round(dateInS);
+function refreshPage(){
+  refreshPlant("fern-last-watered", "#fern-date")
+  refreshPlant("cactus-last-watered", "#cactus-date")
+  refreshPlant("succulent-last-watered", "#succulent-date")
+  refreshPlant("hoya-last-watered", "#hoya-date")
+  refreshPlant("asparagusfern-last-watered", "#asparagusfern-date")
 }
 
-function cactusbuttonPressed() {
-  let now = cactuscurrentTimeInSecondsFrom01Jan1970();
-  localStorage.setItem('cactus-last-watered', now);
-}
+// STEP 1
 
-document.querySelector('#cactus-button').addEventListener('click', cactusbuttonPressed);
+// Write a refresh function that takes a plant name (string?) and refreshes it in local storage etc (like above)
+// Change refreshPage function to call the single function five times with different parameters
+// TOP TIP! Find the things that remain the same and the things that change in the functions above
+// Everything that changes needs to be a parameter, everything else can stay the same.
 
-function cactusformatTimeAgo(timeInS) {
-  let secondsOnly = timeInS % 60;
-  let timeInM = (timeInS - secondsOnly) / 60;
-  let minutesOnly = timeInM % 60;
-  let timeInH = (timeInM - minutesOnly) / 60;
-  let hoursOnly = timeInH % 24;
-  let timeInD = (timeInH - hoursOnly) / 24;
-  return `${timeInD}d ${timeInH}h ${minutesOnly}m ${secondsOnly}s ago`;
-}
+// Step 2
 
-function cactusrefreshPage() {
-  let lastClicked = localStorage.getItem('cactus-last-watered');
-  if (lastClicked === null) {
-    document.querySelector('#cactus-date').innerHTML = 'Never';
-  } else {
-    let now = cactuscurrentTimeInSecondsFrom01Jan1970();
-    let howManySecondsAgo = now - lastClicked;
-    document.querySelector('#cactus-date').innerHTML = cactusformatTimeAgo(howManySecondsAgo);
-  }
-}
+// Write a function that loops over all plants (find something they have in common)
+// and calls the refresh function for them
 
-setInterval(cactusrefreshPage, 1000);
+// function refreshPage() {
+//   asparagusFernRefreshPage();
+//   hoyaRefreshPage();
+//   succulentRefreshPage();
+//   cactusRefreshPage();
+//   fernRefreshPage();
+// }
 
-//SUCCULENT:
+  document.querySelectorAll('button').forEach(function(element) {
+    element.onclick = buttonPressed;
+  });
 
-function succulentcurrentTimeInSecondsFrom01Jan1970() {
-  let dateAsObject = new Date();
-  let dateInMs = dateAsObject - 0;
-  let dateInS = dateInMs / 1000;
-  return Math.round(dateInS);
-}
-
-function succulentbuttonPressed() {
-  let now = succulentcurrentTimeInSecondsFrom01Jan1970();
-  localStorage.setItem('succulent-last-watered', now);
-}
-
-document.querySelector('#succulent-button').addEventListener('click', succulentbuttonPressed);
-
-function succulentformatTimeAgo(timeInS) {
-  let secondsOnly = timeInS % 60;
-  let timeInM = (timeInS - secondsOnly) / 60;
-  let minutesOnly = timeInM % 60;
-  let timeInH = (timeInM - minutesOnly) / 60;
-  let hoursOnly = timeInH % 24;
-  let timeInD = (timeInH - hoursOnly) / 24;
-  return `${timeInD}d ${timeInH}h ${minutesOnly}m ${secondsOnly}s ago`;
-}
-
-function succulentrefreshPage() {
-  let lastClicked = localStorage.getItem('succulent-last-watered');
-  if (lastClicked === null) {
-    document.querySelector('#succulent-date').innerHTML = 'Never';
-  } else {
-    let now = succulentcurrentTimeInSecondsFrom01Jan1970();
-    let howManySecondsAgo = now - lastClicked;
-    document.querySelector('#succulent-date').innerHTML = succulentformatTimeAgo(howManySecondsAgo);
-  }
-}
-
-setInterval(succulentrefreshPage, 1000);
-
-// HOYA:
-
-function hoyacurrentTimeInSecondsFrom01Jan1970() {
-  let dateAsObject = new Date();
-  let dateInMs = dateAsObject - 0;
-  let dateInS = dateInMs / 1000;
-  return Math.round(dateInS);
-}
-
-function hoyabuttonPressed() {
-  let now = hoyacurrentTimeInSecondsFrom01Jan1970();
-  localStorage.setItem('hoya-last-watered', now);
-}
-
-document.querySelector('#hoya-button').addEventListener('click', hoyabuttonPressed);
-
-function hoyaformatTimeAgo(timeInS) {
-  let secondsOnly = timeInS % 60;
-  let timeInM = (timeInS - secondsOnly) / 60;
-  let minutesOnly = timeInM % 60;
-  let timeInH = (timeInM - minutesOnly) / 60;
-  let hoursOnly = timeInH % 24;
-  let timeInD = (timeInH - hoursOnly) / 24;
-  return `${timeInD}d ${timeInH}h ${minutesOnly}m ${secondsOnly}s ago`;
-}
-
-function hoyarefreshPage() {
-  let lastClicked = localStorage.getItem('hoya-last-watered');
-  if (lastClicked === null) {
-    document.querySelector('#hoya-date').innerHTML = 'Never';
-  } else {
-    let now = hoyacurrentTimeInSecondsFrom01Jan1970();
-    let howManySecondsAgo = now - lastClicked;
-    document.querySelector('#hoya-date').innerHTML = hoyaformatTimeAgo(howManySecondsAgo);
-  }
-}
-
-setInterval(hoyarefreshPage, 1000);
-
-//ASPARAGUS FERN:
-
-function asparagusferncurrentTimeInSecondsFrom01Jan1970() {
-  let dateAsObject = new Date();
-  let dateInMs = dateAsObject - 0;
-  let dateInS = dateInMs / 1000;
-  return Math.round(dateInS);
-}
-
-function asparagusfernbuttonPressed() {
-  let now = asparagusferncurrentTimeInSecondsFrom01Jan1970();
-  localStorage.setItem('asparagusfern-last-watered', now);
-}
-
-document.querySelector('#asparagusfern-button').addEventListener('click', asparagusfernbuttonPressed);
-
-function asparagusfernformatTimeAgo(timeInS) {
-  let secondsOnly = timeInS % 60;
-  let timeInM = (timeInS - secondsOnly) / 60;
-  let minutesOnly = timeInM % 60;
-  let timeInH = (timeInM - minutesOnly) / 60;
-  let hoursOnly = timeInH % 24;
-  let timeInD = (timeInH - hoursOnly) / 24;
-  return `${timeInD}d ${timeInH}h ${minutesOnly}m ${secondsOnly}s ago`;
-}
-
-function asparagusfernrefreshPage() {
-  let lastClicked = localStorage.getItem('asparagusfern-last-watered');
-  if (lastClicked === null) {
-    document.querySelector('#asparagusfern-date').innerHTML = 'Never';
-  } else {
-    let now = asparagusferncurrentTimeInSecondsFrom01Jan1970();
-    let howManySecondsAgo = now - lastClicked;
-    document.querySelector('#asparagusfern-date').innerHTML = asparagusfernformatTimeAgo(howManySecondsAgo);
-  }
-}
-
-setInterval(asparagusfernrefreshPage, 1000);
+setInterval(refreshPage, 1000);

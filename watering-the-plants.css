@@ -6,6 +6,16 @@ img, body {
 nav {
   display: block;
   text-align: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+nav h1 {
+  margin-bottom: 0.25em;
+}
+
+nav h2 {
+  margin-top: 0;
 }
 
 .main {
@@ -14,7 +24,8 @@ nav {
   align-items: flex-start;
   justify-content: space-around;
   border: 40px;
-  padding: none;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 .fern, .cactus, .succulent, .hoya, .asparagus-fern, .new-plant {
@@ -49,4 +60,8 @@ nav {
 
 .asparagus-fern {
   background: url(images/asparagus-fern.png);
+}
+
+.new-plant {
+  background-color: green;
 }
